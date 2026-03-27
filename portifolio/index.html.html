@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Natukwatsa Rodgers — IT Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#050a0f;--card:#0d1e2e;--accent:#00e5ff;--accent2:#7b2fff;
+  --accent3:#ff2d78;--accent4:#00ffa3;--text:#cde8ff;--muted:#5a7a99;
+  --border:rgba(0,229,255,0.12);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh;}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:12px;height:12px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .25s,height .25s;}
+#curR{position:fixed;top:0;left:0;width:36px;height:36px;border:1px solid rgba(0,229,255,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+
+/* GRID BG */
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+.scanline{position:fixed;inset:0;pointer-events:none;z-index:9997;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.3rem 4rem;background:rgba(5,10,15,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:var(--accent);letter-spacing:2px;cursor:none;}
+.nav-logo span{color:var(--accent3);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links li a{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;cursor:none;transition:color .3s;position:relative;padding-bottom:2px;}
+.nav-links li a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s;}
+.nav-links li a:hover{color:var(--accent);}
+.nav-links li a:hover::after,.nav-links li a.active::after{width:100%;}
+.nav-links li a.active{color:var(--accent);}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:4px;}
+.nav-hamburger span{display:block;width:24px;height:2px;background:var(--accent);transition:all .3s;}
+.mobile-menu{display:none;position:fixed;top:70px;left:0;right:0;background:rgba(5,10,15,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:2rem;z-index:199;flex-direction:column;gap:1.5rem;}
+.mobile-menu a{font-family:'Share Tech Mono',monospace;font-size:.85rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;cursor:none;transition:color .3s;}
+.mobile-menu a.active,.mobile-menu a:hover{color:var(--accent);}
+.mobile-menu.open{display:flex;}
+
+/* PAGES */
+.page{display:none;min-height:100vh;position:relative;z-index:1;}
+.page.active{display:block;}
+
+/* ===================== HOME PAGE ===================== */
+.hero{min-height:100vh;display:flex;align-items:center;padding:7rem 4rem 4rem;position:relative;overflow:hidden;}
+.hero-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(0,229,255,.07),transparent 70%),radial-gradient(ellipse 50% 50% at 15% 80%,rgba(123,47,255,.09),transparent 60%);}
+.hero-content{position:relative;z-index:2;max-width:680px;}
+.hero-tag{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:4px;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;animation:fadeUp .7s forwards;}
+.hero-tag::before{content:'';width:36px;height:1px;background:var(--accent);}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,6.5vw,5.2rem);font-weight:800;line-height:1.0;margin-bottom:1.4rem;animation:fadeUp .7s .15s both;}
+.hero h1 .name{color:#fff;display:block;}
+.hero h1 .role{color:transparent;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;}
+.hero-desc{font-size:1rem;color:var(--muted);line-height:1.85;max-width:500px;margin-bottom:2.5rem;animation:fadeUp .7s .3s both;}
+.hero-btns{display:flex;gap:1.2rem;flex-wrap:wrap;animation:fadeUp .7s .45s both;}
+.btn{font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;padding:.9rem 2rem;border-radius:2px;transition:all .3s;display:inline-block;cursor:none;border:none;}
+.btn-primary{background:var(--accent);color:#000;box-shadow:0 0 28px rgba(0,229,255,.35);}
+.btn-primary:hover{background:#fff;box-shadow:0 0 50px rgba(0,229,255,.6);transform:translateY(-2px);}
+.btn-outline{border:1px solid var(--border);color:var(--text);background:transparent;}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);box-shadow:inset 0 0 20px rgba(0,229,255,.05);}
+
+/* Hero visual */
+.hero-visual{position:absolute;right:4rem;top:50%;transform:translateY(-50%);width:360px;z-index:2;animation:fadeUp .7s .55s both;}
+.hero-frame{width:100%;aspect-ratio:4/5;border:1px solid var(--border);overflow:hidden;position:relative;}
+.hero-frame img{width:100%;height:100%;object-fit:cover;filter:saturate(.65) brightness(.75);transition:filter .5s;}
+.hero-frame:hover img{filter:saturate(1) brightness(1);}
+.hero-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,229,255,.08));}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--border);border-top:none;}
+.stat{padding:.9rem 1.2rem;background:var(--card);}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);}
+.stat-lbl{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+
+/* Skills preview */
+.section{padding:5.5rem 4rem;position:relative;z-index:1;}
+.sec-label{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:4px;text-transform:uppercase;margin-bottom:.9rem;display:flex;align-items:center;gap:.8rem;}
+.sec-label::before{content:'';width:28px;height:1px;background:var(--accent);}
+.sec-h2{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:#fff;margin-bottom:3rem;}
+.sec-h2 span{color:var(--accent);}
+
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;}
+.sk-card{background:var(--card);border:1px solid var(--border);padding:2.2rem 1.8rem;cursor:none;position:relative;overflow:hidden;transition:all .4s;}
+.sk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--sk-c,var(--accent));transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.sk-card:hover{background:#0e2236;transform:translateY(-4px);}
+.sk-card:hover::before{transform:scaleX(1);}
+.sk-icon{font-size:2.3rem;margin-bottom:1.3rem;display:block;}
+.sk-card h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.7rem;}
+.sk-card p{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:1.3rem;}
+.sk-link{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:.4rem;}
+.sk-link::after{content:'→';transition:transform .3s;}
+.sk-card:hover .sk-link::after{transform:translateX(5px);}
+
+/* Terminal */
+.terminal{margin:0 4rem;background:var(--card);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;z-index:1;}
+.t-header{background:#091522;padding:.75rem 1.4rem;display:flex;align-items:center;gap:.55rem;border-bottom:1px solid var(--border);}
+.dot{width:11px;height:11px;border-radius:50%;}
+.dr{background:#ff5f57;}.dy{background:#ffbd2e;}.dg{background:#28c840;}
+.t-title{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--muted);margin-left:.5rem;letter-spacing:1px;}
+.t-body{padding:1.8rem 2.4rem;font-family:'Share Tech Mono',monospace;font-size:.83rem;line-height:2.1;}
+.t-line{display:flex;gap:.9rem;}
+.tp{color:var(--accent);}.tc{color:#fff;}.to{color:var(--muted);padding-left:1.8rem;}
+.to em{color:var(--accent2);font-style:normal;}
+.tcur{display:inline-block;width:7px;height:.9em;background:var(--accent);animation:blink 1s infinite;vertical-align:text-bottom;}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* Timeline */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.timeline{position:relative;padding-left:1.8rem;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:2.8rem;}
+.tl-dot{position:absolute;left:-1.8rem;top:.35rem;width:10px;height:10px;border-radius:50%;background:var(--tl-c,var(--accent));transform:translateX(-4px);box-shadow:0 0 12px var(--tl-c,rgba(0,229,255,.6));}
+.tl-yr{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:2px;margin-bottom:.4rem;}
+.tl-role{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
+.tl-co{color:var(--muted);font-size:.88rem;margin-bottom:.7rem;}
+.tl-desc{color:var(--muted);font-size:.85rem;line-height:1.7;}
+
+/* Photo grid */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:190px 190px;gap:2px;}
+.ph{overflow:hidden;position:relative;}
+.ph:first-child{grid-row:span 2;}
+.ph img{width:100%;height:100%;object-fit:cover;filter:saturate(.4) brightness(.65);transition:all .5s;}
+.ph:hover img{filter:saturate(.85) brightness(1);}
+.ph .ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,.1),transparent);opacity:0;transition:opacity .4s;}
+.ph:hover .ov{opacity:1;}
+
+/* CTA strip */
+.cta{margin:0 4rem 5.5rem;background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(123,47,255,.07));border:1px solid var(--border);padding:3.5rem 4rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:3rem;position:relative;z-index:1;}
+.cta h2{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);font-weight:800;color:#fff;}
+.cta p{color:var(--muted);margin-top:.4rem;font-size:.95rem;}
+
+/* ===================== SKILLS PAGE ===================== */
+.page-hero{padding:9.5rem 4rem 4.5rem;position:relative;z-index:1;overflow:hidden;}
+.page-hero::after{content:attr(data-word);position:absolute;right:4rem;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:11rem;font-weight:800;color:rgba(0,229,255,.03);white-space:nowrap;pointer-events:none;line-height:1;}
+.breadcrumb{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.3rem;cursor:none;}
+.breadcrumb span{color:var(--accent);cursor:none;}
+.page-hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,5.5vw,4.6rem);font-weight:800;color:#fff;line-height:1.0;}
+.page-hero h1 em{color:var(--accent);font-style:normal;}
+.page-hero p{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.85;margin-top:1.3rem;}
+
+.skill-sec{padding:4.5rem 4rem;border-top:1px solid var(--border);}
+.skill-inner{display:grid;grid-template-columns:1fr 1.65fr;gap:5rem;align-items:start;}
+.skill-inner.rev{direction:rtl;}
+.skill-inner.rev>*{direction:ltr;}
+.sk-meta-num{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:3px;margin-bottom:.8rem;}
+.sk-big-icon{font-size:3.8rem;margin-bottom:1.3rem;display:block;}
+.sk-meta h2{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#fff;margin-bottom:.9rem;}
+.sk-meta p{color:var(--muted);font-size:.9rem;line-height:1.8;margin-bottom:1.8rem;}
+.sk-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.8rem;}
+.sk-tag{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--tc,var(--accent));border:1px solid var(--tc,var(--accent));padding:.28rem .75rem;border-radius:2px;letter-spacing:1px;}
+.cert{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.1rem;background:var(--card);border:1px solid var(--border);margin-bottom:.5rem;}
+.cert-dot{width:7px;height:7px;border-radius:50%;background:var(--cc,var(--accent));}
+.cert-name{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:#fff;letter-spacing:.5px;}
+.sk-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:saturate(.55) brightness(.7);border:1px solid var(--border);display:block;margin-bottom:1.8rem;}
+.bar-group{margin-bottom:1.7rem;}
+.bar-lbl{display:flex;justify-content:space-between;margin-bottom:.45rem;}
+.bar-name{font-family:'Share Tech Mono',monospace;font-size:.74rem;color:var(--text);letter-spacing:1px;}
+.bar-pct{font-family:'Share Tech Mono',monospace;font-size:.74rem;color:var(--bc,var(--accent));}
+.bar-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;background:var(--bc,var(--accent));transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.25,.46,.45,.94);}
+.bar-fill.go{transform:scaleX(1);}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:1px;margin-top:1.8rem;}
+.tool{background:var(--card);border:1px solid var(--border);padding:.9rem;text-align:center;transition:all .3s;}
+.tool:hover{border-color:var(--accent);background:#0e2236;}
+.tool-ico{font-size:1.5rem;}
+.tool-lbl{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:1px;margin-top:.35rem;}
+
+/* ===================== PROJECTS PAGE ===================== */
+.filter-row{padding:0 4rem 2.5rem;display:flex;gap:.7rem;flex-wrap:wrap;position:relative;z-index:1;}
+.fbtn{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;padding:.55rem 1.3rem;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:none;transition:all .3s;border-radius:2px;}
+.fbtn:hover,.fbtn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,.05);}
+
+.featured{margin:0 4rem 2px;position:relative;z-index:1;overflow:hidden;}
+.feat-inner{display:grid;grid-template-columns:1fr 1fr;min-height:480px;}
+.feat-img{overflow:hidden;position:relative;}
+.feat-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.5) brightness(.65);transition:all .6s;}
+.featured:hover .feat-img img{filter:saturate(.85) brightness(.9);}
+.feat-img .fi-ov{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(5,10,15,.9));}
+.feat-info{background:var(--card);border:1px solid var(--border);border-left:none;padding:3rem 2.8rem;}
+.feat-badge{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem;}
+.feat-badge::before{content:'★ FEATURED';}
+.feat-info h2{font-family:'Syne',sans-serif;font-size:1.85rem;font-weight:800;color:#fff;margin-bottom:.9rem;line-height:1.2;}
+.feat-info p{color:var(--muted);line-height:1.8;margin-bottom:1.8rem;font-size:.92rem;}
+.tech-stack{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.8rem;}
+.tp-pill{font-family:'Share Tech Mono',monospace;font-size:.58rem;padding:.28rem .75rem;border:1px solid var(--border);color:var(--muted);border-radius:2px;letter-spacing:1px;}
+.proj-links{display:flex;gap:.9rem;}
+.plink{font-family:'Share Tech Mono',monospace;font-size:.67rem;letter-spacing:2px;text-transform:uppercase;padding:.65rem 1.4rem;border-radius:2px;transition:all .3s;cursor:none;}
+.plink-p{background:var(--accent);color:#000;}
+.plink-p:hover{background:#fff;transform:translateY(-2px);}
+.plink-o{border:1px solid var(--border);color:var(--muted);}
+.plink-o:hover{border-color:var(--accent);color:var(--accent);}
+
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:2px;margin:2px 4rem 2px;}
+.pc{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:all .4s;}
+.pc:hover{border-color:rgba(0,229,255,.3);transform:translateY(-4px);}
+.pc-img{height:190px;overflow:hidden;position:relative;}
+.pc-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.4) brightness(.65);transition:all .5s;}
+.pc:hover .pc-img img{filter:saturate(.8) brightness(.9);}
+.cat-badge{position:absolute;top:.9rem;left:.9rem;font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;padding:.28rem .75rem;background:rgba(5,10,15,.8);border:1px solid var(--cb,var(--accent));color:var(--cb,var(--accent));backdrop-filter:blur(10px);}
+.pc-body{padding:1.6rem;}
+.pc-body h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.55rem;}
+.pc-body p{color:var(--muted);font-size:.86rem;line-height:1.7;margin-bottom:1.1rem;}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:.9rem;margin-top:.3rem;}
+.pc-result{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--accent4);letter-spacing:1px;}
+.pc-arrow{font-size:1.1rem;color:var(--muted);transition:all .3s;cursor:none;}
+.pc:hover .pc-arrow{color:var(--accent);transform:translateX(4px);}
+
+.metrics{margin:2px 4rem 5.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;position:relative;z-index:1;}
+.metric{background:var(--card);border:1px solid var(--border);padding:2.3rem 1.8rem;text-align:center;}
+.met-num{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--accent);display:block;}
+.met-lbl{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:.35rem;}
+
+/* ===================== CONTACT PAGE ===================== */
+.contact-layout{padding:0 4rem 5rem;display:grid;grid-template-columns:1.05fr 1.6fr;gap:4rem;align-items:start;position:relative;z-index:1;}
+.ci-label{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:2.2rem;display:flex;align-items:center;gap:.8rem;}
+.ci-label::before{content:'';width:28px;height:1px;background:var(--accent);}
+.ci-item{display:flex;align-items:flex-start;gap:1.1rem;margin-bottom:1.6rem;padding:1.3rem;background:var(--card);border:1px solid var(--border);transition:all .3s;}
+.ci-item:hover{border-color:rgba(0,229,255,.3);transform:translateX(4px);}
+.ci-ico{font-size:1.4rem;flex-shrink:0;margin-top:.1rem;}
+.ci-lbl{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:.25rem;}
+.ci-val{color:#fff;font-size:.92rem;}
+.avail-box{margin-top:2.5rem;padding:1.4rem;background:rgba(0,255,163,.05);border:1px solid rgba(0,255,163,.2);}
+.avail-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem;}
+.avail-dot{width:9px;height:9px;border-radius:50%;background:#00ffa3;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,255,163,.4)}50%{box-shadow:0 0 0 8px rgba(0,255,163,0)}}
+.avail-tag{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:#00ffa3;letter-spacing:2px;text-transform:uppercase;}
+.avail-txt{color:var(--muted);font-size:.86rem;line-height:1.6;}
+.socials{margin-top:1.8rem;display:flex;gap:.7rem;flex-wrap:wrap;}
+.soc-btn{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;padding:.55rem 1.1rem;border:1px solid var(--border);color:var(--muted);cursor:none;transition:all .3s;border-radius:2px;}
+.soc-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* Form */
+.cf{background:var(--card);border:1px solid var(--border);padding:2.8rem;}
+.cf-title{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:700;color:#fff;margin-bottom:.4rem;}
+.cf-sub{color:var(--muted);font-size:.88rem;margin-bottom:2.2rem;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem;}
+.fg{margin-bottom:1.1rem;}
+.fg label{display:block;font-family:'Share Tech Mono',monospace;font-size:.64rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem;}
+.fg input,.fg textarea,.fg select{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.92rem;padding:.85rem 1.1rem;outline:none;transition:all .3s;border-radius:2px;appearance:none;cursor:none;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--accent);background:rgba(0,229,255,.03);box-shadow:0 0 0 3px rgba(0,229,255,.08);}
+.fg textarea{min-height:130px;resize:vertical;}
+.fg select option{background:#0d1e2e;}
+.f-check{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1.8rem;}
+.f-check input[type=checkbox]{width:15px;height:15px;margin-top:3px;accent-color:var(--accent);flex-shrink:0;cursor:none;}
+.f-check label{font-size:.82rem;color:var(--muted);line-height:1.55;}
+.submit-btn{width:100%;font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:3px;text-transform:uppercase;padding:1.05rem;background:var(--accent);color:#000;border:none;border-radius:2px;cursor:none;transition:all .3s;font-weight:700;}
+.submit-btn:hover{background:#fff;box-shadow:0 0 40px rgba(0,229,255,.4);transform:translateY(-2px);}
+.resp-time{display:flex;align-items:center;justify-content:center;gap:.55rem;margin-top:.9rem;font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:1px;}
+.rt-dot{width:6px;height:6px;border-radius:50%;background:var(--accent4);}
+.success-box{display:none;text-align:center;padding:3rem;background:rgba(0,255,163,.05);border:1px solid rgba(0,255,163,.2);border-radius:2px;}
+.success-box.show{display:block;}
+.success-box h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:#00ffa3;margin:1rem 0 .5rem;}
+.success-box p{color:var(--muted);}
+
+.loc-visual{margin:0 4rem 5.5rem;overflow:hidden;position:relative;z-index:1;border:1px solid var(--border);}
+.loc-visual img{width:100%;height:280px;object-fit:cover;filter:saturate(.3) brightness(.45) hue-rotate(180deg);display:block;}
+.loc-ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,.15),rgba(123,47,255,.1));display:flex;align-items:center;justify-content:center;}
+.loc-pin{text-align:center;}
+.pin-ico{font-size:2.8rem;display:block;margin-bottom:.4rem;filter:drop-shadow(0 0 20px rgba(0,229,255,.8));}
+.pin-lbl{font-family:'Share Tech Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:3px;text-transform:uppercase;}
+
+/* ===================== FOOTER ===================== */
+footer{border-top:1px solid var(--border);padding:2.2rem 4rem;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+.f-logo{font-family:'Share Tech Mono',monospace;font-size:.88rem;color:var(--accent);}
+.f-copy{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:1px;}
+.f-links{display:flex;gap:1.8rem;}
+.f-links a{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--muted);cursor:none;transition:color .3s;}
+.f-links a:hover{color:var(--accent);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.fu{opacity:0;animation:fadeUp .65s forwards;}
+.fu1{animation-delay:.1s}.fu2{animation-delay:.25s}.fu3{animation-delay:.4s}.fu4{animation-delay:.55s}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:1.1rem 1.8rem;}
+  .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+  .hero{padding:8rem 2rem 4rem;flex-direction:column;}
+  .hero-visual{display:none;}
+  .hero-content{max-width:100%;}
+  .section,.skill-sec{padding:4rem 2rem;}
+  .terminal{margin:0 2rem;}
+  .two-col{grid-template-columns:1fr;gap:3rem;}
+  .cta{margin:0 2rem 4rem;grid-template-columns:1fr;padding:2.5rem 2rem;}
+  .page-hero{padding:8rem 2rem 4rem;}
+  .skill-inner,.skill-inner.rev{grid-template-columns:1fr;direction:ltr;}
+  .filter-row{padding:0 2rem 2rem;}
+  .featured{margin:0 2rem 2px;}
+  .feat-inner{grid-template-columns:1fr;}
+  .feat-img{height:240px;}
+  .feat-img .fi-ov{background:linear-gradient(180deg,transparent,rgba(5,10,15,.9));}
+  .proj-grid{margin:2px 2rem 2px;}
+  .metrics{margin:2px 2rem 4rem;grid-template-columns:1fr 1fr;}
+  .contact-layout{padding:0 2rem 4rem;grid-template-columns:1fr;}
+  .f-row{grid-template-columns:1fr;}
+  .loc-visual{margin:0 2rem 4rem;}
+  footer{padding:2rem;flex-direction:column;gap:1rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="curR"></div>
+<div class="scanline"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="goTo('home')">NR<span>_</span>DEV</div>
+  <ul class="nav-links">
+    <li><a class="active" onclick="goTo('home')">Home</a></li>
+    <li><a onclick="goTo('skills')">Skills</a></li>
+    <li><a onclick="goTo('contact')">Contact</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="goTo('home');toggleMenu()">Home</a>
+  <a onclick="goTo('skills');toggleMenu()">Skills</a>
+  <a onclick="goTo('contact');toggleMenu()">Contact</a>
+</div>
+
+<!-- ============================== HOME ============================== -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-tag fu">IT Professional &amp; Security Specialist</div>
+      <h1 class="fu fu1">
+        <span class="name">Natukwatsa Rodgers</span>
+        <span class="role">Building Secure Digital Infrastructures</span>
+      </h1>
+      <p class="hero-desc fu fu2">Specializing in network architecture, cybersecurity, web development, and database systems — turning complex IT challenges into elegant, scalable solutions.</p>
+      <div class="hero-btns fu fu3">
+        <button class="btn btn-primary" onclick="goTo('projects')">View Projects</button>
+        <button class="btn btn-outline" onclick="goTo('contact')">Get In Touch</button>
+      </div>
+    </div>
+    <div class="hero-visual fu fu4">
+      <div class="hero-frame">
+        <img src="IMAGES/RAJAT.png" alt="IT workspace"/>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">8+</div><div class="stat-lbl">Years Exp</div></div>
+        <div class="stat"><div class="stat-num">50+</div><div class="stat-lbl">Projects</div></div>
+        <div class="stat"><div class="stat-num">30+</div><div class="stat-lbl">Clients</div></div>
+        <div class="stat"><div class="stat-num">12</div><div class="stat-lbl">Certs</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-label">Expertise Areas</div>
+    <h2 class="sec-h2">What I <span>Specialize In</span></h2>
+    <div class="skills-grid">
+      <div class="sk-card" style="--sk-c:#00e5ff" onclick="goTo('skills')">
+        <span class="sk-icon">🌐</span>
+        <h3>Network Engineering</h3>
+        <p>Designing and securing enterprise network infrastructures with expertise in routing, switching, and cloud networking.</p>
+        <span class="sk-link">Explore</span>
+      </div>
+      <div class="sk-card" style="--sk-c:#7b2fff" onclick="goTo('skills')">
+        <span class="sk-icon">💻</span>
+        <h3>Web Development</h3>
+        <p>Full-stack development using modern frameworks — from pixel-perfect frontends to robust backend architectures.</p>
+        <span class="sk-link">Explore</span>
+      </div>
+      <div class="sk-card" style="--sk-c:#ff2d78" onclick="goTo('skills')">
+        <span class="sk-icon">🔐</span>
+        <h3>Cybersecurity</h3>
+        <p>Penetration testing, vulnerability assessment, threat modeling, and defense-in-depth security strategies.</p>
+        <span class="sk-link">Explore</span>
+      </div>
+      <div class="sk-card" style="--sk-c:#00ffa3" onclick="goTo('skills')">
+        <span class="sk-icon">🗄️</span>
+        <h3>Database Systems</h3>
+        <p>Database architecture, optimization, and management across SQL and NoSQL platforms for high-availability environments.</p>
+        <span class="sk-link">Explore</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="terminal">
+    <div class="t-header"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="t-title">rajatnova18@gmail.com ~ — bash</span></div>
+    <div class="t-body">
+      <div class="t-line"><span class="tp">rajatnova18@gmail.com:~$</span><span class="tc"> whoami</span></div>
+      <div class="to">IT Professional | <em>Network Engineer</em> | <em>Security Analyst</em> | <em>Full-Stack Dev</em></div>
+      <div class="t-line"><span class="tp">rajatnova18@gmail.com:~$</span><span class="tc"> cat skills.txt</span></div>
+      <div class="to">Networking: <em>CCNA, BGP, OSPF, SD-WAN, Cisco, Juniper</em></div>
+      <div class="to">Security: <em>CEH, CISSP, Penetration Testing, SIEM, SOC</em></div>
+      <div class="to">Web Dev: <em>React, Node.js, Python, Docker, AWS, CI/CD</em></div>
+      <div class="to">Databases: <em>PostgreSQL, MongoDB, Redis, MySQL, Oracle</em></div>
+      <div class="t-line"><span class="tp">rajatnova18@gmail.com:~$</span><span class="tc"> <span class="tcur"></span></span></div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="two-col">
+      <div>
+        <div class="sec-label">Background</div>
+        <h2 class="sec-h2">My <span>Journey</span></h2>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot" style="--tl-c:#00e5ff;"></div>
+            <div class="tl-yr">2025 — PRESENT</div>
+            <div class="tl-role">Senior Network Security Engineer</div>
+            <div class="tl-co">TechCore Solutions Inc.</div>
+            <div class="tl-desc">Leading enterprise network security initiatives, implementing Zero Trust architecture across hybrid cloud environments.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="--tl-c:#7b2fff;box-shadow:0 0 12px rgba(123,47,255,.6);"></div>
+            <div class="tl-yr">2025 — 2026</div>
+            <div class="tl-role">Full-Stack Developer</div>
+            <div class="tl-co">Nexus Digital Agency</div>
+            <div class="tl-desc">Built scalable web applications and REST APIs serving 500K+ users. Integrated DevSecOps into CI/CD pipelines.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="--tl-c:#ff2d78;box-shadow:0 0 12px rgba(255,45,120,.6);"></div>
+            <div class="tl-yr">2024 — 2025</div>
+            <div class="tl-role">Junior Network Administrator</div>
+            <div class="tl-co">ByteStream Networks</div>
+            <div class="tl-desc">Managed network infrastructure, performed system audits, and supported a 200-node enterprise environment.</div>
+          </div>
+        </div>
+      </div>
+      <div class="photo-grid">
+        <div class="ph"><img src="IMAGES/SERVER.jpg" alt="Server"/><div class="ov"></div></div>
+        <div class="ph"><img src="IMAGES/CYBER SECURITY.jpg" alt="Security"/><div class="ov"></div></div>
+        <div class="ph"><img src="IMAGES/NETWORK.jpg" alt="Network"/><div class="ov"></div></div>
+        <div class="ph"><img src="IMAGES/WEB DEV.jpg" alt="Web"/><div class="ov"></div></div>
+        <div class="ph"><img src="IMAGES/database.jpeg" alt="DB"/><div class="ov"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta">
+    <div><h2>Ready to Build Something Secure &amp; Scalable?</h2><p>Let's discuss your next IT project or security assessment.</p></div>
+    <button class="btn btn-primary" onclick="goTo('contact')">Start a Project</button>
+  </div>
+
+  <footer>
+    <span class="f-logo">NR_DEV © 2026</span>
+    <div class="f-links">
+      <a onclick="goTo('home')">Home</a><a onclick="goTo('skills')">Skills</a>
+      <a onclick="goTo('contact')">Contact</a>
+    </div>
+    <span class="f-copy">BUILT WITH PRECISION &amp; SECURITY IN MIND</span>
+  </footer>
+</div>
+
+<!-- ============================== SKILLS ============================== -->
+<div class="page" id="page-skills">
+  <div class="page-hero" data-word="SKILLS">
+    <div class="breadcrumb"><span onclick="goTo('home')" style="cursor:none">Home</span> / Skills</div>
+    <h1>Technical <em>Expertise</em></h1>
+    <p>Eight years of hands-on experience across networking, development, security, and data systems — built through real projects and continuous learning.</p>
+  </div>
+
+  <!-- NETWORKING -->
+  <section class="skill-sec">
+    <div class="skill-inner">
+      <div class="sk-meta">
+        <div class="sk-meta-num">01 / 04</div>
+        <span class="sk-big-icon">🌐</span>
+        <h2>Network Engineering</h2>
+        <p>Designing and maintaining resilient network infrastructures. From enterprise LAN/WAN to cloud-native networking, I architect solutions that are fast, fault-tolerant, and secure.</p>
+        <div class="sk-tags">
+          <span class="sk-tag" style="--tc:#00e5ff">CISCO</span><span class="sk-tag" style="--tc:#00e5ff">JUNIPER</span>
+          <span class="sk-tag" style="--tc:#00e5ff">BGP</span><span class="sk-tag" style="--tc:#00e5ff">OSPF</span>
+          <span class="sk-tag" style="--tc:#00e5ff">SD-WAN</span><span class="sk-tag" style="--tc:#00e5ff">MPLS</span>
+          <span class="sk-tag" style="--tc:#00e5ff">VPN</span><span class="sk-tag" style="--tc:#00e5ff">VLAN</span>
+        </div>
+        <div class="cert"><div class="cert-dot" style="--cc:#00e5ff"></div><span class="cert-name">CCNA — Cisco Certified Network Associate</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#00e5ff"></div><span class="cert-name">CCNP — Enterprise</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#00e5ff"></div><span class="cert-name">Juniper JNCIS-ENT</span></div>
+      </div>
+      <div>
+        <img src="IMAGES/NETWORK.jpg" alt="Networking" class="sk-img"/>
+        <div class="bar-group" style="--bc:#00e5ff"><div class="bar-lbl"><span class="bar-name">Routing &amp; Switching</span><span class="bar-pct">95%</span></div><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div></div>
+        <div class="bar-group" style="--bc:#00e5ff"><div class="bar-lbl"><span class="bar-name">Network Security &amp; Firewalls</span><span class="bar-pct">90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+        <div class="bar-group" style="--bc:#00e5ff"><div class="bar-lbl"><span class="bar-name">Cloud Networking (AWS/Azure)</span><span class="bar-pct">82%</span></div><div class="bar-track"><div class="bar-fill" style="width:82%"></div></div></div>
+        <div class="bar-group" style="--bc:#00e5ff"><div class="bar-lbl"><span class="bar-name">SD-WAN &amp; WAN Optimization</span><span class="bar-pct">78%</span></div><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div></div>
+        <div class="tools-grid">
+          <div class="tool"><div class="tool-ico">🔧</div><div class="tool-lbl">Wireshark</div></div>
+          <div class="tool"><div class="tool-ico">📡</div><div class="tool-lbl">GNS3</div></div>
+          <div class="tool"><div class="tool-ico">🔄</div><div class="tool-lbl">Cisco IOS</div></div>
+          <div class="tool"><div class="tool-ico">☁️</div><div class="tool-lbl">AWS VPC</div></div>
+          <div class="tool"><div class="tool-ico">🛡️</div><div class="tool-lbl">pfSense</div></div>
+          <div class="tool"><div class="tool-ico">📊</div><div class="tool-lbl">PRTG</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEB DEV -->
+  <section class="skill-sec" style="background:rgba(123,47,255,.03)">
+    <div class="skill-inner rev">
+      <div class="sk-meta">
+        <div class="sk-meta-num">02 / 04</div>
+        <span class="sk-big-icon">💻</span>
+        <h2>Web Development</h2>
+        <p>Building modern, performant web applications using cutting-edge frameworks. Strong emphasis on clean architecture, accessibility, and security-by-design principles.</p>
+        <div class="sk-tags">
+          <span class="sk-tag" style="--tc:#7b2fff">REACT</span><span class="sk-tag" style="--tc:#7b2fff">NODE.JS</span>
+          <span class="sk-tag" style="--tc:#7b2fff">PYTHON</span><span class="sk-tag" style="--tc:#7b2fff">DOCKER</span>
+          <span class="sk-tag" style="--tc:#7b2fff">AWS</span><span class="sk-tag" style="--tc:#7b2fff">REST API</span>
+          <span class="sk-tag" style="--tc:#7b2fff">CI/CD</span><span class="sk-tag" style="--tc:#7b2fff">TYPESCRIPT</span>
+        </div>
+        <div class="cert"><div class="cert-dot" style="--cc:#7b2fff"></div><span class="cert-name">AWS Certified Developer — Associate</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#7b2fff"></div><span class="cert-name">Google Cloud Professional</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#7b2fff"></div><span class="cert-name">Docker Certified Associate</span></div>
+      </div>
+      <div>
+        <img src="IMAGES/WEB DEV.jpg" alt="Web Dev" class="sk-img"/>
+        <div class="bar-group" style="--bc:#7b2fff"><div class="bar-lbl"><span class="bar-name">Frontend (React, Vue, HTML/CSS)</span><span class="bar-pct">92%</span></div><div class="bar-track"><div class="bar-fill" style="width:92%"></div></div></div>
+        <div class="bar-group" style="--bc:#7b2fff"><div class="bar-lbl"><span class="bar-name">Backend (Node.js, Python, REST)</span><span class="bar-pct">88%</span></div><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div></div>
+        <div class="bar-group" style="--bc:#7b2fff"><div class="bar-lbl"><span class="bar-name">DevOps &amp; Cloud Infrastructure</span><span class="bar-pct">80%</span></div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+        <div class="bar-group" style="--bc:#7b2fff"><div class="bar-lbl"><span class="bar-name">Mobile Development (React Native)</span><span class="bar-pct">70%</span></div><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div></div>
+        <div class="tools-grid">
+          <div class="tool"><div class="tool-ico">⚛️</div><div class="tool-lbl">React</div></div>
+          <div class="tool"><div class="tool-ico">🟢</div><div class="tool-lbl">Node.js</div></div>
+          <div class="tool"><div class="tool-ico">🐳</div><div class="tool-lbl">Docker</div></div>
+          <div class="tool"><div class="tool-ico">☁️</div><div class="tool-lbl">AWS</div></div>
+          <div class="tool"><div class="tool-ico">🔱</div><div class="tool-lbl">K8s</div></div>
+          <div class="tool"><div class="tool-ico">🧪</div><div class="tool-lbl">Jest</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CYBERSECURITY -->
+  <section class="skill-sec">
+    <div class="skill-inner">
+      <div class="sk-meta">
+        <div class="sk-meta-num">03 / 04</div>
+        <span class="sk-big-icon">🔐</span>
+        <h2>Cybersecurity</h2>
+        <p>Protecting digital assets through proactive threat hunting, vulnerability assessments, and layered security architectures. Certified ethical hacker with real-world red-team experience.</p>
+        <div class="sk-tags">
+          <span class="sk-tag" style="--tc:#ff2d78">PENTESTING</span><span class="sk-tag" style="--tc:#ff2d78">SIEM</span>
+          <span class="sk-tag" style="--tc:#ff2d78">SOC</span><span class="sk-tag" style="--tc:#ff2d78">ZERO TRUST</span>
+          <span class="sk-tag" style="--tc:#ff2d78">IDS/IPS</span><span class="sk-tag" style="--tc:#ff2d78">OSINT</span>
+          <span class="sk-tag" style="--tc:#ff2d78">FORENSICS</span>
+        </div>
+        <div class="cert"><div class="cert-dot" style="--cc:#ff2d78"></div><span class="cert-name">CEH — Certified Ethical Hacker</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#ff2d78"></div><span class="cert-name">CompTIA Security+</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#ff2d78"></div><span class="cert-name">CISSP — In Progress</span></div>
+      </div>
+      <div>
+        <img src="IMAGES/CYBER SECURITY.jpg" alt="Cybersecurity" class="sk-img"/>
+        <div class="bar-group" style="--bc:#ff2d78"><div class="bar-lbl"><span class="bar-name">Penetration Testing</span><span class="bar-pct">87%</span></div><div class="bar-track"><div class="bar-fill" style="width:87%"></div></div></div>
+        <div class="bar-group" style="--bc:#ff2d78"><div class="bar-lbl"><span class="bar-name">Threat Detection &amp; SIEM</span><span class="bar-pct">85%</span></div><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div></div>
+        <div class="bar-group" style="--bc:#ff2d78"><div class="bar-lbl"><span class="bar-name">Incident Response &amp; Forensics</span><span class="bar-pct">80%</span></div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+        <div class="bar-group" style="--bc:#ff2d78"><div class="bar-lbl"><span class="bar-name">Cloud Security (AWS/Azure)</span><span class="bar-pct">76%</span></div><div class="bar-track"><div class="bar-fill" style="width:76%"></div></div></div>
+        <div class="tools-grid">
+          <div class="tool"><div class="tool-ico">🐉</div><div class="tool-lbl">Kali Linux</div></div>
+          <div class="tool"><div class="tool-ico">🔎</div><div class="tool-lbl">Nmap</div></div>
+          <div class="tool"><div class="tool-ico">💣</div><div class="tool-lbl">Metasploit</div></div>
+          <div class="tool"><div class="tool-ico">🌊</div><div class="tool-lbl">Burp Suite</div></div>
+          <div class="tool"><div class="tool-ico">🦅</div><div class="tool-lbl">Splunk</div></div>
+          <div class="tool"><div class="tool-ico">🛡️</div><div class="tool-lbl">CrowdStrike</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATABASE -->
+  <section class="skill-sec" style="background:rgba(0,255,163,.03)">
+    <div class="skill-inner rev">
+      <div class="sk-meta">
+        <div class="sk-meta-num">04 / 04</div>
+        <span class="sk-big-icon">🗄️</span>
+        <h2>Database Systems</h2>
+        <p>Architecting, optimizing, and securing data storage solutions. Experienced with relational and NoSQL systems in high-availability, high-throughput production environments.</p>
+        <div class="sk-tags">
+          <span class="sk-tag" style="--tc:#00ffa3">POSTGRESQL</span><span class="sk-tag" style="--tc:#00ffa3">MYSQL</span>
+          <span class="sk-tag" style="--tc:#00ffa3">MONGODB</span><span class="sk-tag" style="--tc:#00ffa3">REDIS</span>
+          <span class="sk-tag" style="--tc:#00ffa3">ORACLE</span><span class="sk-tag" style="--tc:#00ffa3">ELASTICSEARCH</span>
+        </div>
+        <div class="cert"><div class="cert-dot" style="--cc:#00ffa3"></div><span class="cert-name">Oracle DB Certified Associate</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#00ffa3"></div><span class="cert-name">MongoDB Certified Developer</span></div>
+        <div class="cert"><div class="cert-dot" style="--cc:#00ffa3"></div><span class="cert-name">AWS Database Specialty</span></div>
+      </div>
+      <div>
+        <img src="IMAGES/database.jpeg" alt="Database" class="sk-img"/>
+        <div class="bar-group" style="--bc:#00ffa3"><div class="bar-lbl"><span class="bar-name">Relational Databases (SQL)</span><span class="bar-pct">93%</span></div><div class="bar-track"><div class="bar-fill" style="width:93%"></div></div></div>
+        <div class="bar-group" style="--bc:#00ffa3"><div class="bar-lbl"><span class="bar-name">NoSQL (MongoDB, Redis)</span><span class="bar-pct">85%</span></div><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div></div>
+        <div class="bar-group" style="--bc:#00ffa3"><div class="bar-lbl"><span class="bar-name">Query Optimization &amp; Indexing</span><span class="bar-pct">88%</span></div><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div></div>
+        <div class="bar-group" style="--bc:#00ffa3"><div class="bar-lbl"><span class="bar-name">Data Replication &amp; Backup</span><span class="bar-pct">82%</span></div><div class="bar-track"><div class="bar-fill" style="width:82%"></div></div></div>
+        <div class="tools-grid">
+          <div class="tool"><div class="tool-ico">🐘</div><div class="tool-lbl">PostgreSQL</div></div>
+          <div class="tool"><div class="tool-ico">🍃</div><div class="tool-lbl">MongoDB</div></div>
+          <div class="tool"><div class="tool-ico">🔴</div><div class="tool-lbl">Redis</div></div>
+          <div class="tool"><div class="tool-ico">🐬</div><div class="tool-lbl">MySQL</div></div>
+          <div class="tool"><div class="tool-ico">🔍</div><div class="tool-lbl">Elastic</div></div>
+          <div class="tool"><div class="tool-ico">☁️</div><div class="tool-lbl">AWS RDS</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="f-logo">NR_DEV © 2026</span>
+    <div class="f-links">
+      <a onclick="goTo('home')">Home</a><a onclick="goTo('skills')">Skills</a>
+      <a onclick="goTo('contact')">Contact</a>
+    </div>
+    <span class="f-copy">BUILT WITH PRECISION &amp; SECURITY IN MIND</span>
+  </footer>
+</div>
+
+<!-- ============================== PROJECTS ============================== -->
+
+
+<!-- ============================== CONTACT ============================== -->
+<div class="page" id="page-contact">
+  <div class="page-hero" data-word="HELLO">
+    <div class="breadcrumb"><span onclick="goTo('home')">Home</span> / Contact</div>
+    <h1>Let's <em>Connect</em></h1>
+    <p>Ready to secure your infrastructure, build your next product, or discuss a security audit? I'd love to hear from you.</p>
+  </div>
+
+  <div class="contact-layout">
+    <div>
+      <div class="ci-label">Get In Touch</div>
+      <div class="ci-item"><div class="ci-ico">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val">rajatnova18@gmail.com</div></div></div>
+      <div class="ci-item"><div class="ci-ico">📱</div><div><div class="ci-lbl">Phone</div><div class="ci-val">+256740815619,+256786358353</div></div></div>
+      <div class="ci-item"><div class="ci-ico">📍</div><div><div class="ci-lbl">Location</div><div class="ci-val">Kampala-Uganda</div></div></div>
+      <div class="ci-item"><div class="ci-ico">⏰</div><div><div class="ci-lbl">Timezone</div><div class="ci-val">PST (UTC-8) — Flexible Hours</div></div></div>
+      <div class="avail-box">
+        <div class="avail-row"><div class="avail-dot"></div><span class="avail-tag">Available for New Projects</span></div>
+        <p class="avail-txt">Currently accepting freelance contracts, consulting engagements, and full-time opportunities in network security and web development.</p>
+      </div>
+      <div class="socials">
+        <a href="https://Twitter.com/RajatNova58297">
+        <button class="soc-btn">Twitter/X</button>
+        </a>
+        <a href="https://wa.me/256700691538"target="_blank">
+        <button class="soc-btn">WhatsApp</i></button>
+        </a>
+        <a href="https://github.com/Rajatnova"target="_blank">
+           <button class="soc-btn">GitHub</i></button>
+        </a>
+      </div>
+    </div>
+    <div class="cf">
+      <div class="cf-title">Send a Message</div>
+      <div class="cf-sub">Fill out the form and I'll get back to you within 24 hours.</div>
+      <div id="formWrap">
+        <div class="f-row">
+          <div class="fg"><label>First Name</label><input id="fn" type="text" placeholder="nabboth"/></div>
+          <div class="fg"><label>Last Name</label><input type="text" placeholder="allan"/></div>
+        </div>
+        <div class="fg"><label>Email Address</label><input id="em" type="email" placeholder="nabboth@company.com"/></div>
+        <div class="fg"><label>Company / Organization</label><input type="text" placeholder="Optional"/></div>
+        <div class="fg"><label>Service Needed</label>
+          <select><option value="">Select a service...</option>
+            <option>Network Architecture &amp; Design</option>
+            <option>Cybersecurity Audit / Penetration Testing</option>
+            <option>Web Application Development</option>
+            <option>Database Design &amp; Optimization</option>
+            <option>Security Consulting</option>
+            <option>DevSecOps Implementation</option>
+            <option>Other / General Inquiry</option>
+          </select>
+        </div>
+        <div class="fg"><label>Project Budget (USD)</label>
+          <select><option value="">Select range...</option>
+            <option>Under $500</option><option>$500 – $1000</option>
+            <option>$1000 – $1500</option><option>$1500+</option>
+            <option>Let's discuss</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message</label><textarea id="msg" placeholder="Tell me about your project, goals, and any specific challenges..."></textarea></div>
+        <div class="f-check"><input type="checkbox" id="nda"/><label for="nda">I understand all project details will be kept strictly confidential and under NDA upon request.</label></div>
+        <button class="submit-btn" onclick="submitForm()">SEND MESSAGE →</button>
+        <div class="resp-time"><div class="rt-dot"></div>Typical response time: under 24 hours</div>
+      </div>
+      <div class="success-box" id="successBox">
+        <span style="font-size:3rem;display:block">✅</span>
+        <h3>Message Sent!</h3>
+        <p>Thanks for reaching out. I'll review your message and get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+<input type="hidden"name="secretkey"value='45809'>
+  <div class="loc-visual">
+    <img src="IMAGES/MAP.png" alt="City"/>
+    <div class="loc-ov"><div class="loc-pin"><span class="pin-ico">📍</span><span class="pin-lbl">Kampala-Uganda</span></div></div>
+  </div>
+
+  <footer>
+    <span class="f-logo">NR_DEV © 2026</span>
+    <div class="f-links">
+      <a onclick="goTo('home')">Home</a><a onclick="goTo('skills')">Skills</a>
+      <a onclick="goTo('contact')">Contact</a>
+    </div>
+    <span class="f-copy">BUILT WITH PRECISION &amp; SECURITY IN MIND</span>
+  </footer>
+</div>
+<script>
+   document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Get form data
+  const formData = new FormData(this);
+  const params = new URLSearchParams(formData);
+  
+  // Replace with your web app URL
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbx6I_NoJ7MvIIdVCktubcZmZorlvBayQV06XG2VK_oC1V2p-tLceZjkSxaYXTmC9jLe/exec';
+  
+  fetch(scriptURL, {
+    method: 'POST',
+    body: params
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert('Message sent successfully! I\'ll get back to you within 24 hours.');
+      document.getElementById('contactForm').reset();
+    } else {
+      alert('Error: ' + data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Something went wrong. Please try again or email me directly.');
+  });
+});
+const secretkey= params.secret_key;
+if(secretkey!=='45809'){
+  return ContentService.createTextOutput('Unauthorised');
+}
+</script>
+
+<script>
+ 
+
+
+// ── CURSOR ──────────────────────────────────────────────
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){
+  cur.style.cssText=`left:${mx}px;top:${my}px`;
+  rx+=(mx-rx)*.14;ry+=(my-ry)*.14;
+  curR.style.cssText=`left:${rx}px;top:${ry}px`;
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,input,select,textarea,.sk-card,.pc,.ci-item,.tool').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';});
+});
+
+// ── ROUTING ─────────────────────────────────────────────
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-links li a').forEach((a,i)=>{
+    a.classList.toggle('active',['home','skills','projects','contact'][i]===id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='skills') setTimeout(animateBars,400);
+}
+
+// ── MOBILE MENU ─────────────────────────────────────────
+function toggleMenu(){
+  const m=document.getElementById('mobileMenu');
+  m.classList.toggle('open');
+}
+
+// ── SKILL BAR ANIMATION ─────────────────────────────────
+function animateBars(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.bar-fill').forEach(b=>b.classList.add('go'));
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:.25});
+  document.querySelectorAll('.skill-sec').forEach(s=>obs.observe(s));
+}
+
+// ── PROJECT FILTER ───────────────────────────────────────
+function filterProjects(btn,cat){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#projGrid .pc').forEach(card=>{
+    const show=cat==='all'||card.dataset.cat===cat;
+    card.style.display=show?'block':'none';
+  });
+}
+
+// ── CONTACT FORM ─────────────────────────────────────────
+function submitForm(){
+  const fn=document.getElementById('fn').value;
+  const em=document.getElementById('em').value;
+  const msg=document.getElementById('msg').value;
+  if(!fn||!em||!msg){alert('Please fill in your name, email, and message.');return;}
+  document.getElementById('formWrap').style.display='none';
+  document.getElementById('successBox').classList.add('show');
+}
+</script>
+</body>
+</html>
+
